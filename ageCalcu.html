@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Age Calculator</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      background-color: #000;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #070707;
+      background-color: #fff;
+      /* width: 100%; */
+        border-radius: 25px  25px 0 0  ;
+        margin-bottom: 20px;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: space-around;
+      margin-top: 30px;
+      gap: 10px;
+      border: 1px solid red;
+      padding: 10px;
+      overflow: hidden;
+    }
+    
+    .result {
+        background-color: #000000;
+        padding: 20px;
+        border-radius: 5px;
+        width: 100%;
+        color: #fff;
+        /* height: 30px; */
+        border: 1px solid red;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .result h2 {
+      margin-top: 0;
+    }
+
+    .birthday-cake {
+      font-size: 3em;
+      color: #333;
+    }
+    #birthday{
+        color: orange;
+    }
+    .showAge{
+        display:flex ;
+        align-items: center;
+        justify-content: flex-start;
+        /* background-color: #4CAF50; */
+        height: 50%;
+    }
+    label{
+        color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Age Calculator</h1>
+    <label for="dob">Select Date of Birth:</label>
+    <input type="date" id="dob" name="dob">
+    <label for="today">Today's Date:</label>
+    <input type="date" id="today" name="today" value="<?php echo date('Y-m-d'); ?>">
+    <button onclick="calculateAge()">Calculate</button>
+
+    <div class="results">
+      <div class="result" id="age">
+            <h2>Age</h2>
+            <div class="showAge">
+                <p id="years">--- Year</p>
+            </div>
+      </div>
+      <div class="result" id="birthday">
+        <h2>Next Birthday</h2>
+        <p class="birthday-cake">🎂</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      var dob = new Date(document.getElementById("dob").value);
+      var today = new Date(document.getElementById("today").value);
+
+      var age = today.getFullYear() - dob.getFullYear();
+      var m = today.getMonth() - dob.getMonth();
+      var d = today.getDate() - dob.getDate();
+
+      if (m < 0 || (m === 0 && d < 0)) {
+        age--;
+      }
+
+      document.getElementById("years").innerHTML = age + " Year";
+
+      var nextBirthday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+      if (nextBirthday < today) {
+        nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+      }
+
+      var daysUntilBirthday = Math.round((nextBirthday - today) / (1000 * 60 * 60 * 24));
+      document.getElementById("birthday").innerHTML = `<h2>Next Birthday</h2><p>${daysUntilBirthday} days</p><p class="birthday-cake">🎂</p>`;
+    }
+  </script>
+</body>
+</html>
